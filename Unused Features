@@ -1,0 +1,13 @@
+//Remove Google Fonts
+add_filter( 'elementor/frontend/print_google_fonts', '__return_false' );
+
+//Reduce Revisions to 3
+define('WP_POST_REVISIONS', 3);
+
+//Ensure Webfont is Loaded 
+add_filter( 'elementor_pro/custom_fonts/font_display', function( $current_value, $font_family, $data ) {
+	return 'swap';
+}, 10, 3 );
+
+//Stop Lazy Load
+add_filter( 'wp_lazy_loading_enabled', '__return_false' );
