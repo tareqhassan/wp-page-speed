@@ -1,13 +1,26 @@
 //Remove Google Fonts
 add_filter( 'elementor/frontend/print_google_fonts', '__return_false' );
 
+//Remove Google Fonts (Non-Elementor Site)
+function disable_google_fonts() {
+	return false;
+}
+add_filter( 'print_google_fonts', 'disable_google_fonts' );
+
 //Reduce Revisions to 3
 define('WP_POST_REVISIONS', 3);
 
-//Ensure Webfont is Loaded 
+//Ensure Webfont is Loaded (Elementor Site)
 add_filter( 'elementor_pro/custom_fonts/font_display', function( $current_value, $font_family, $data ) {
 	return 'swap';
 }, 10, 3 );
+
+//Ensure Webfont is Loaded (Non-Elementor Site)
+function custom_font_display( $current_value, $font_family, $data ) {
+	return 'swap';
+}
+add_filter( 'font_display', 'custom_font_display', 10, 3 );
+
 
 //Stop Lazy Load
 add_filter( 'wp_lazy_loading_enabled', '__return_false' );
