@@ -1,0 +1,11 @@
+/* Disable lazy loading for single image* */
+function wphelp_no_lazy_load_id( $value, $image, $context ) {
+if ( 'the_content' === $context ) {
+$image_url = wp_get_attachment_image_url( 10576, 'large' );
+if ( false !== strpos( $image, ' src="' . $image_url . '"' )) {
+return false;
+}
+}
+return $value;
+}
+add_filter( 'wp_img_tag_add_loading_attr', 'wphelp_no_lazy_load_id', 10576, 10576 );
