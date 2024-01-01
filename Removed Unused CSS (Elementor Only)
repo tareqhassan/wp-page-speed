@@ -1,0 +1,26 @@
+function exclude_specific_css_files($src, $handle) {
+    // List of CSS file URLs to exclude from minification
+    $excluded_css_files = array(
+        '/wp-content/plugins/elementor/assets/css/frontend-lite.min.css',
+        '/wp-content/plugins/elementor-pro/assets/css/frontend-lite.min.css',
+    );
+
+    // Check if the current CSS file URL matches any of the excluded URLs
+    foreach ($excluded_css_files as $excluded_css_file) {
+        if (strpos($src, $excluded_css_file) !== false) {
+            return $src; // Return the original unminified CSS file
+        }
+    }
+
+    // If the CSS file is not in the excluded list, proceed with minification
+    return minify_css_content($src);
+}
+
+function minify_css_content($content) {
+    $content = preg_replace('/\s+/', ' ', $content); // Remove extra whitespaces
+    $content = str_replace(array("\r\n", "\r", "\n", "\t"), '', $content); // Remove newlines and tabs
+
+    return $content;
+}
+
+add_filter('style_loader_src', 'exclude_specific_css_files', 10, 2);
